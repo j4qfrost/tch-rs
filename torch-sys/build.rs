@@ -32,7 +32,7 @@ fn download<P: AsRef<Path>>(_source_url: &str, _target_file: P) -> anyhow::Resul
 }
 
 #[cfg(not(feature = "download-libtorch"))]
-fn get_pypi_wheel_url_for_aarch64_macosx() -> anyhow::Result<&str> {
+fn get_pypi_wheel_url_for_aarch64_macosx() -> anyhow::Result<&'static str> {
     anyhow::bail!("cannot get pypi wheel url without the ureq feature")
 }
 
@@ -167,7 +167,7 @@ fn prepare_libtorch_dir() -> PathBuf {
                             Then update the following environment variables:
                             export LIBTORCH=$(python3 -c 'import torch; from pathlib import Path; print(Path(torch.__file__).parent)')
                             export DYLD_LIBRARY_PATH=${{LIBTORCH}}/lib
-                            ")
+                            ").to_string()
                     } else {
                         format!("https://download.pytorch.org/libtorch/cpu/libtorch-macos-{TORCH_VERSION}.zip")
                     }
